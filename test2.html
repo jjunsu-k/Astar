@@ -18,4 +18,323 @@
 </head>
 <body>
     <h1>분자 구조 그리기</h1>
-    <input type="text" id="molecularInput" plac
+    <input type="text" id="molecularInput" placeholder="분자식 입력 (예: H2O)" />
+    <button id="drawButton">그리기</button>
+    <canvas id="moleculeCanvas" width="400" height="400"></canvas>
+
+    <script>
+        document.getElementById('drawButton').addEventListener('click', function() {
+            const molecularInput = document.getElementById('molecularInput').value;
+            drawMolecule(molecularInput);
+        });
+
+        function drawMolecule(molecule) {
+            const canvas = document.getElementById('moleculeCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 초기화
+
+            // 분자 구조 그리기 로직
+            if (molecule === 'H2O') {
+                drawWaterMolecule(ctx);
+            } else if (molecule === 'CO2') {
+                drawCarbonDioxideMolecule(ctx);
+            } else if (molecule === 'CH4') {
+                drawMethaneMolecule(ctx);
+            } else if (molecule === 'NH3') {
+                drawAmmoniaMolecule(ctx);
+            } else if (molecule === 'C2H6') {
+                drawEthaneMolecule(ctx);
+            } else if (molecule === 'C6H12O6') {
+                drawGlucoseMolecule(ctx);
+            } else {
+                ctx.fillText('지원하지 않는 분자식입니다.', 50, 200);
+            }
+        }
+
+        function drawWaterMolecule(ctx) {
+            ctx.fillStyle = 'blue';
+            ctx.beginPath();
+            ctx.arc(150, 200, 20, 0, Math.PI * 2); // O 원
+            ctx.fill();
+            ctx.fillStyle = 'red';
+            ctx.beginPath();
+            ctx.arc(100, 220, 15, 0, Math.PI * 2); // H 원
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(200, 220, 15, 0, Math.PI * 2); // H 원
+            ctx.fill();
+
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(135, 200); // O-H
+            ctx.lineTo(115, 215);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(165, 200); // O-H
+            ctx.lineTo(185, 215);
+            ctx.stroke();
+
+            // 결합각 표시
+            ctx.fillStyle = 'black';
+            ctx.fillText('104.5°', 300, 50);
+        }
+
+        function drawCarbonDioxideMolecule(ctx) {
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(150, 200, 20, 0, Math.PI * 2); // C 원
+            ctx.fill();
+            ctx.fillStyle = 'red';
+            ctx.beginPath();
+            ctx.arc(100, 200, 15, 0, Math.PI * 2); // O 원
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(200, 200, 15, 0, Math.PI * 2); // O 원
+            ctx.fill();
+
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(135, 200); // C=O
+            ctx.lineTo(165, 200);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(115, 200); // O1-C 결합선
+            ctx.lineTo(135, 200);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(185, 200); // O2-C 결합선
+            ctx.lineTo(165, 200);
+            ctx.stroke();
+
+            // 결합각 표시
+            ctx.fillStyle = 'black';
+            ctx.fillText('180°', 300, 50);
+        }
+
+        function drawMethaneMolecule(ctx) {
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(150, 200, 20, 0, Math.PI * 2); // C 원
+            ctx.fill();
+
+            const positions = [
+                { x: 100, y: 150 }, // H1
+                { x: 100, y: 250 }, // H2
+                { x: 200, y: 150 }, // H3
+                { x: 200, y: 250 }  // H4
+            ];
+
+            ctx.fillStyle = 'red';
+            positions.forEach(pos => {
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2); // H 원
+                ctx.fill();
+
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(150, 200);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+            });
+
+            // 결합각 표시
+            ctx.fillStyle = 'black';
+            ctx.fillText('109.5°', 300, 50);
+        }
+
+        function drawAmmoniaMolecule(ctx) {
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(150, 150, 20, 0, Math.PI * 2); // N 원
+            ctx.fill();
+
+            const positions = [
+                { x: 100, y: 200 }, // H1
+                { x: 150, y: 250 }, // H2
+                { x: 200, y: 200 }  // H3
+            ];
+
+            ctx.fillStyle = 'red';
+            positions.forEach(pos => {
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2); // H 원
+                ctx.fill();
+
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(150, 150);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+            });
+
+            // 결합각 표시
+            ctx.fillStyle = 'black';
+            ctx.fillText('107.3°', 300, 50);
+        }
+
+        function drawEthaneMolecule(ctx) {
+            ctx.fillStyle = 'black';
+            const c1 = { x: 120, y: 200 };
+            const c2 = { x: 220, y: 200 };
+            ctx.beginPath();
+            ctx.arc(c1.x, c1.y, 20, 0, Math.PI * 2); // C1 원
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(c2.x, c2.y, 20, 0, Math.PI * 2); // C2 원
+            ctx.fill();
+
+            const hPositionsC1 = [
+                { x: 80, y: 200 },  // H1
+                { x: 120, y: 150 }, // H2
+                { x: 120, y: 250 }  // H3
+            ];
+
+            const hPositionsC2 = [
+                { x: 200, y: 150 }, // H4
+                { x: 200, y: 250 }, // H5
+                { x: 260, y: 200 }  // H6
+            ];
+
+            ctx.fillStyle = 'red';
+            hPositionsC1.forEach(pos => {
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2); // H 원
+                ctx.fill();
+
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(c1.x, c1.y);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+            });
+
+            hPositionsC2.forEach(pos => {
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 15, 0, Math.PI * 2); // H 원
+                ctx.fill();
+
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(c2.x, c2.y);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+            });
+
+            // C-C 결합선 추가
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(140, 200); // C1-C2 결합선
+            ctx.lineTo(200, 200);
+            ctx.stroke();
+
+            // 결합각 표시
+            ctx.fillStyle = 'black';
+            ctx.fillText('111.0°', 300, 50);
+        }
+
+        function drawGlucoseMolecule(ctx) {
+            ctx.fillStyle = 'black';
+            const positions = [
+                { x: 100, y: 100 }, // C1
+                { x: 200, y: 100 }, // C2
+                { x: 100, y: 200 }, // C3
+                { x: 200, y: 200 }, // C4
+                { x: 150, y: 300 }, // C5
+                { x: 150, y: 400 }  // C6
+            ];
+
+            positions.forEach((pos) => {
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2); // C 원
+                ctx.fill();
+            });
+
+            // C-C 결합선 추가
+            ctx.strokeStyle = 'black';
+            ctx.lineWidth = 2;
+
+            // C1-C2 결합선
+            ctx.beginPath();
+            ctx.moveTo(120, 100);
+            ctx.lineTo(180, 100);
+            ctx.stroke();
+
+            // C1-C3 결합선
+            ctx.beginPath();
+            ctx.moveTo(100, 120);
+            ctx.lineTo(100, 180);
+            ctx.stroke();
+
+            // C2-C4 결합선
+            ctx.beginPath();
+            ctx.moveTo(200, 120);
+            ctx.lineTo(200, 180);
+            ctx.stroke();
+
+            // C3-C5 결합선
+            ctx.beginPath();
+            ctx.moveTo(100, 220);
+            ctx.lineTo(150, 280);
+            ctx.stroke();
+
+            // C4-C5 결합선
+            ctx.beginPath();
+            ctx.moveTo(200, 220);
+            ctx.lineTo(150, 280);
+            ctx.stroke();
+
+            // C5-C6 결합선
+            ctx.beginPath();
+            ctx.moveTo(150, 300);
+            ctx.lineTo(150, 380);
+            ctx.stroke();
+
+            // 수소 원자와 결합선 그리기
+            const hOffsets = [
+                { x: -30, y: -30 }, { x: -30, y: 30 }, // C1
+                { x: 30, y: -30 }, { x: 30, y: 30 }, // C2
+                { x: -30, y: -30 }, { x: -30, y: 30 }, // C3
+                { x: 30, y: -30 }, { x: 30, y: 30 }, // C4
+                { x: -30, y: 0 }, { x: 30, y: 0 }, // C5
+                { x: -30, y: 0 }, { x: 30, y: 0 }  // C6
+            ];
+
+            positions.forEach((pos, index) => {
+                const hPos1 = { x: pos.x + hOffsets[index * 2].x, y: pos.y + hOffsets[index * 2].y };
+                const hPos2 = { x: pos.x + hOffsets[index * 2 + 1].x, y: pos.y + hOffsets[index * 2 + 1].y };
+
+                ctx.fillStyle = 'red';
+                ctx.beginPath();
+                ctx.arc(hPos1.x, hPos1.y, 10, 0, Math.PI * 2); // H 원
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(hPos2.x, hPos2.y, 10, 0, Math.PI * 2); // H 원
+                ctx.fill();
+
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                ctx.lineTo(hPos1.x, hPos1.y);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(pos.x, pos.y);
+                ctx.lineTo(hPos2.x, hPos2.y);
+                ctx.stroke();
+            });
+
+            // 결합각 표시
+            ctx.fillStyle = 'black';
+            ctx.fillText('110°', 300, 50);
+        }
+    </script>
+</body>
+</html>
