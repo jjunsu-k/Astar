@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>분자 구조 그리기</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+        #molecularInput {
+            padding: 10px;
+            width: 200px;
+        }
+        #drawButton {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>분자 구조 그리기</h1>
+    <input type="text" id="molecularInput" placeholder="분자식 입력 (예: H2O)" />
+    <button id="drawButton">그리기</button>
+    <canvas id="moleculeCanvas" width="400" height="400"></canvas>
+
+    <script>
+        document.getElementById('drawButton').addEventListener('click', function() {
+            const molecularInput = document.getElementById('molecularInput').value;
+            drawMolecule(molecularInput);
+        });
+
+        function drawMolecule(molecule) {
+            const canvas = document.getElementById('moleculeCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 초기화
+
+            // 분자 구조 그리
