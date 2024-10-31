@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과학 실험</title>
+    <link rel="stylesheet" href="styles.css"> <!-- 스타일시트 링크 -->
+    <script>
+        function updateTitle() {
+            const titleInput = document.getElementById('titleInput').value;
+            document.getElementById('displayTitle').innerText = titleInput;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>과학 실험</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>빗면 가속도와 분자 구조 모형</h2>
+            <input type="text" id="titleInput" placeholder="제목을 입력하세요" />
+            <button onclick="updateTitle()">제목 표시</button>
+        </section>
+
+        <section>
+            <h2>입력된 제목</h2>
+            <h3 id="displayTitle">여기에 제목이 표시됩니다.</h3>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 제목 입력 페이지. 모든 권리 보유.</p>
+    </footer>
+</body>
+</html>
