@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>빗면 가속도 실험</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #simulation {
+            width: 400px;
+            height: 200px;
+            border: 1px solid #000;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            background: #f9f9f9; /* 배경색 */
+        }
+        .ball {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            bottom: 40px; /* 고정된 y좌표 */
+        }
+        .slope {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            transform: skewY(-30deg); /* 왼쪽에서 오른쪽 아래로 기울기 */
+            bottom: 0;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<h1>가속도 실험</h1>
+
+<label for="mass">물체의 질량 (kg):</label>
+<input type="number" id="mass" required min="0"><br><br>
+
+<label for="initialVelocity">초기 속도 (m/s):</label>
+<input type="number" id="initialVelocity" required min="0"><br><br>
+
+<label for="timeDuration">시간 (s):</label>
+<input type="number" id="timeDuration" required min="0"><br><br>
+
+<button onclick="runExperiment()">실험 시작</button>
+
+<h2>결과</h2>
+<p id="result"></p>
+
+<div id="simulation">
+    <div class="slope"></div>
+</div>
+
+<h2>위치 및 속도 표</h2>
+<table id="resultsTable">
+    <thead>
+        <tr>
+            <th>시간 (s)</th>
+            <th>위치 (m)</th>
+            <th>속도 (m/s)</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script>
+function runExperiment() {
+    const g = 9.81; // 중력 가속도 (m/s^2)
+    const angle = 30; // 고정된 빗면 각도
+    const angleRad = angle * (Math.PI / 180); // 라디안으로 변환
+
+    // 사용자 입력
+    const mass = parseFloat(document.getElementById('mass').value);
+    const initialVelocity = parseFloat(document.getElementById('initialVelocity').value);
+    const initialPosition = 0; // 초기 위치 고정
+    const timeDuration = parseFloat(document.getElementById('timeDuration').value);
+   
+    // 유효성 검사
+    if (mass <= 0 || initialVelocity < 0 || timeDuration <= 0) {
+        alert("모든 입력값은 양수여야 합니다.");
+        return;
+    }
+
+    // 가속도 계산
+    const acceleration = g * Math.sin(angleRad);
+
+    // 시간 배열 생성
+    const timeSteps = 100;
+    const timePoints = Array.from({ length: timeSteps }, (_, i) => i * (timeDuration / (timeSteps - 1)));
+
+    // 위치 및 속도 계산
+    const position = timePoints.map(t => initialPosition + initialVelocity * t + 0.5 * acceleration * t ** 2);
+    const velocity = timePoints.map(t => initialVelocity + acceleration * t);
+
+    // 결과 출력
+    document.getElementById('result').innerHTML = `최종 위치: ${position[position.length - 1].toFixed(2)} m, 최종 속도: ${velocity[velocity.length - 1].toFixed(2)} m/s`;
+
+    // 공을 다시 초기화하고 굴리기 시뮬레이션
+    resetBall();
+    rollBall(position);
+
+    // 표에 결과 추가
+    updateTable(timePoints, position, velocity);
+}
+
+function resetBall() {
+    const simulationDiv = document.getElementById('simulation');
+    // 기존의 공이 있다면 제거
+    const existingBall = document.querySelector('.ball');
+    if (existingBall) {
+        simulationDiv.removeChild(existingBall);
+    }
+}
+
+function updateTable(timePoints, position, velocity) {
+    const tbody = document.querySelector('#resultsTable tbody');
+    tbody.innerHTML = ''; // 기존 데이터 지우기
+
+    timePoints.forEach((time, index) => {
+        const row = tbody.insertRow();
+        row.insertCell(0).textContent = time.toFixed(2);
+        row.insertCell(1).textContent = position[index].toFixed(2);
+        row.insertCell(2).textContent = velocity[index].toFixed(2);
+    });
+}
+
+function rollBall(position) {
+    const ball = document.createElement('div');
+    ball.className = 'ball';
+    document.getElementById('simulation').appendChild(ball);
+
+    const simulationWidth = document.getElementById('simulation').offsetWidth;
+    const scaleFactor = simulationWidth / (position.length * Math.cos(30 * Math.PI / 180)); // 각도를 라디안으로 변환
+
+    position.forEach((pos, index) => {
+        setTimeout(() => {
+            const x = pos * scaleFactor; // x 좌표 계산
+            ball.style.left = `${x}px`;
+            // y좌표는 고정되어 있음
+        }, index * 50); // 시간 간격으로 애니메이션
+    });
+}
+</script>
+
+</body>
+</html>
