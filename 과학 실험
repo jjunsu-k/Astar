@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>과학 실험</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        nav {
+            margin: 20px 0;
+        }
+        nav a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: #333;
+        }
+        section {
+            margin: 20px 0;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>나의 웹사이트</h1>
+</header>
+
+<nav>
+    <a href="#about">소개</a>
+    <a href="#services">서비스</a>
+    <a href="#contact">연락처</a>
+</nav>
+
+<section id="about">
+    <h2>소개</h2>
+    <p>이곳에 소개 내용을 작성하세요. 웹사이트의 목적이나 자신에 대해 간단히 설명할 수 있습니다.</p>
+</section>
+
+<section id="services">
+    <h2>서비스</h2>
+    <p>여기에 제공하는 서비스나 제품에 대해 설명하세요.</p>
+</section>
+
+<section id="contact">
+    <h2>연락처</h2>
+    <p>이메일: example@example.com</p>
+    <p>전화번호: 010-1234-5678</p>
+</section>
+
+<footer>
+    <p>&copy; 2024 나의 웹사이트</p>
+</footer>
+
+</body>
+</html>
